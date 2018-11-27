@@ -1,0 +1,289 @@
+// These two libraries are required for
+#include <FastLED.h>
+#include <PS2Keyboard.h>
+
+// These lines define parameters for number of LEDs,and the PIN they get data from
+#define NUM_LEDS 42
+#define DATA_PIN 5
+
+// These lines set needed data/clock pin inputs for PS2keyboard communicating w/arduino
+const int DataPin = 8;
+const int IRQpin =  3; /* for the love of god don't change this */
+
+//These lines are defining some oft-used timer variables to neaten up the code
+const int showTimer = 1200;
+const int offTimer = 400;
+int count = 0;
+int fortNum = 0;
+//String() = ledColors /* This is almost definitely wrong, fix later!! */
+
+// This section is defining arrays for my macro light sequences
+int runMacroArray[] = {30, 34, 22}; /* LEDs for "RUN" */
+int rightHereMacroArray[] = {30, 15, 10, 11, 32, 11, 8, 30, 8}; /* LEDs for "RIGHTHERE" */
+int helloMacroArray[] = {13, 9, 20, 20, 24, 36, 23, 30, 19, 6}; /* LEDs for "HELLOWORLD" */
+int trustMacroArray[] = {32, 30, 34, 31, 32, 22, 23, 23, 22, 8}; /* LEDs for "TRUSTNOONE" */
+int dontPanicArray[] = {6, 23, 22, 32, 24, 2, 22, 15, 5}; /* LEDs for "DONTPANIC" */
+int emprahMacroArray[] = {9, 23, 30, 32, 11, 8, 8, 21, 24, 30, 2, 11}; /* LEDs for "FORTHEEMPRAH" */
+int dontBlinkArray[] = {6, 23, 22, 32, 3, 19, 15, 22, 18}; /* LEDs for "DONTBLINK" */
+int wtfMateMacroArray[] = {36, 32, 9, 21, 2, 32, 8}; /* LEDs for "WTFMATE" */
+int strangerMacroArray[] = {31, 32, 30, 2, 22, 10, 8, 30, 32, 11, 15, 22, 10, 31}; /* LEDs for "STRANGERTHINGS" */
+int yesMacroArray[] = {39, 8, 31}; /* LEDs for "YES" */
+int noMacroArray[] = {22, 23}; /* LEDs for "NO" */
+int wtfMacroArray[] = {36, 32, 9}; /* LEDs for "WTF" */
+int fourtyTwoMacroArray[] = {9, 23, 34, 30, 32, 39, 32, 36, 23}; /* LEDs for "FOURTYTWO" */
+int shisnoArray[] = {34, 30, 2, 31, 11, 15, 31, 22, 23}; /* LEDs for "URASHISNO" */
+
+// Defines array for holding LED data
+CRGB leds[NUM_LEDS];
+
+// Creates the actual keyboard object
+PS2Keyboard keyboard;
+
+
+// This creates a clear function to reset all LEDs to black
+void clear() {
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+    }
+  FastLED.show();
+}
+
+// This function standardizes the "lighting" of an LED and the time between characters
+void showLED() {
+  FastLED.show();
+  delay(showTimer);
+  clear();
+  delay(offTimer);
+}
+
+void fastShowLED() {
+  FastLED.show();
+  delay(1000);
+  clear();
+  delay(200);
+}
+
+//This is attempting to create a fortune telling function. Hit a single key for yes/no answers
+void fortuneCookie() {
+  fortNum = random(1,50);
+  if (fortNum = 1) {
+    for (count = 0; count < 3; count++) {
+      leds[wtfMacroArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+  }
+  else if (fortNum = 42) {
+    for (count = 0; count < 9; count++) {
+      leds[fourtyTwoMacroArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+  }
+  else if (fortNum % 2) { /* This line does modulo div, to find if number is odd */
+    for (count = 0; count < 3; count++) {
+      leds[yesMacroArray[count]] = CRGB::Ivory;
+      showLED();
+    }
+  }
+  else {
+    for (count = 0; count < 2; count++) { /* even numbers except 42*/
+      leds[noMacroArray[count]] = CRGB::Ivory;
+      showLED();
+    }
+  }
+}
+
+
+// This is the setup code to initialize the LEDs and begin listening for key input
+void setup() {
+
+  // This line initializes the LEDs
+  FastLED.addLeds<WS2811, DATA_PIN>(leds, NUM_LEDS);
+  //This reads a random pin for a better random number generator
+  randomSeed(analogRead(0));
+    // These lines initialize the keyboard.
+  delay(3000);
+  keyboard.begin(DataPin, IRQpin);
+  Serial.begin(9600);
+  
+}
+
+void loop() { /* Main program body below here */
+  
+  char key;
+
+// This checks to see if a key has been pressed, and assigns that value to 'key' variable
+  if (keyboard.available()) {
+    key = keyboard.read();
+  }
+
+  clear(); /* clears any led assignment */
+
+// This switch statement will allow me to program 'macros' ie one key = several 
+// actions, or a single activation for an individual letter key press
+  switch (key) { 
+    case ('1'):
+    for (count = 0; count < 9; count++) { /*  right here  */
+      leds[rightHereMacroArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+      break;
+    case ('2'):
+    for (count = 0; count < 3; count++) { /* This part flashes run */
+      leds[runMacroArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+      break;
+    case ('3'):
+    for (count = 0; count < 10; count++) { /*  hello world  */
+      leds[helloMacroArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+      break;
+    case ('4'):
+    for (count = 0; count < 9; count++) { /*  don't blink */
+      leds[dontBlinkArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+      break;
+    case ('5'):
+    for (count = 0; count < 9; count++) { /*  don't panic  */
+      leds[dontPanicArray[count]] = CRGB::Ivory;
+      showLED();
+      }
+      break;
+    case ('6'):
+    for (count = 0; count < 14; count++) { /*  stranger things  */
+      leds[strangerMacroArray[count]] = CRGB::Ivory;
+      fastShowLED();
+      }
+      break;
+    case ('7'):
+    for (count = 0; count < 9; count++) {
+      leds[shisnoArray[count]] = CRGB::Ivory; 
+      fastShowLED();
+      }
+      break;
+    case ('8'):
+    for (count = 0; count < 9; count++) {
+      leds[dontPanicArray[count]] = CRGB::Ivory;  /* needs unique sequence */
+      showLED();
+      }
+      break;
+    case ('9'):
+    for (count = 0; count < 12; count++) {
+      leds[dontPanicArray[count]] = CRGB::Ivory;  /* needs unique sequence */
+      showLED();
+      }
+      break;
+    case ('0'):
+    fortuneCookie(); /* This line should call custom function fortune cookie!*/
+      break;
+    case ('a'):
+      leds[2] = CRGB::Blue;
+      showLED();
+      break;
+    case ('b'):
+      leds[3] = CRGB::Lime;
+      showLED();
+      break;
+    case ('c'):
+      leds[5] = CRGB::Orange;
+      showLED();
+      break;
+    case ('d'):
+      leds[6] = CRGB::Blue;
+      showLED();
+      break;
+    case ('e'):
+      leds[8] = CRGB::Orange;
+      showLED();
+      break;
+    case ('f'):
+      leds[9] = CRGB::Lime;
+      showLED();
+      break;
+    case ('g'):
+      leds[10] = CRGB::Red;
+      showLED();
+      break;
+    case ('h'):
+      leds[11] = CRGB::Ivory;
+      showLED();
+      break;
+    case ('i'):
+      leds[15] = CRGB::Orange;
+      showLED();
+      break;
+    case ('j'):
+      leds[17] = CRGB::Blue;
+      showLED();
+      break;
+    case ('k'):
+      leds[18] = CRGB::Lime;
+      showLED();
+      break;
+    case ('l'):
+      leds[19] = CRGB::Red;
+      showLED();
+      break;
+    case ('m'):
+      leds[21] = CRGB::Orange;
+      showLED();
+      break;
+    case ('n'):
+      leds[22] = CRGB::Blue;
+      showLED();
+      break;
+    case ('o'):
+      leds[23] = CRGB::Red;
+      showLED();
+      break;
+    case ('p'):
+      leds[24] = CRGB::Lime;
+      showLED();
+      break;
+    case ('q'):
+      leds[26] = CRGB::Ivory;
+      showLED();
+      break;
+    case ('r'):
+      leds[30] = CRGB::Lime;
+      showLED();
+      break;
+    case ('s'):
+      leds[31] = CRGB::Orange;
+      showLED();
+      break;
+    case ('t'):
+      leds[32] = CRGB::Ivory;
+      showLED();
+      break;
+    case ('u'):
+      leds[34] = CRGB::Red;
+      showLED();
+      break;
+    case ('v'):
+      leds[35] = CRGB::Blue;
+      showLED();
+      break;
+    case ('w'):
+      leds[36] = CRGB::Ivory;
+      showLED();
+      break;
+    case ('x'):
+      leds[38] = CRGB::Lime;
+      showLED();
+      break;
+    case ('y'):
+      leds[39] = CRGB::Red;
+      showLED();
+      break;
+    case ('z'):
+      leds[40] = CRGB::Ivory;
+      showLED();
+      break;
+    default:
+      delay (1000);
+      
+    }
+}
