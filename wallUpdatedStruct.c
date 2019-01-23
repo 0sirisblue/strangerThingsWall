@@ -51,16 +51,14 @@ int snake = 0;
 
 
 // This section is defining arrays for my macro light sequences
-int hohoMacroArray[] = {H, O, H, O, H, O}; /* LEDs for "HOHOHO" */
-int merryxmasMacroArray[] = {M, E, R, R, Y, C, H, R, I, S, T, M, A, S}; /* LEDs for "MERRYCHRISTMAS" */
-int happyholidaysMacroArray[] = {H, A, P, P, Y, H, O, L, I, D, A, Y, S}; /* LEDs for "HAPPYHOLIDAYS" */
-int runrunrudolphMacroArray[] = {R, U, N, R, U, N, R, U, D, O, L, P, H}; /* LEDs for "RUNRUNRUDOLPH" */
+int runMacroArray[] = {R, U, N}; /* LEDs for "RUN" */
+int righthereMacroArray[] = {R, I, G, H, T, H, E, R, E}; /* LEDs for "RIGHTHERE" */
+int helloworldMacroArray[] = {H, E, L, L, O, W, O, R, L, D}; /* LEDs for "HELLOWORLD" */
+int trustnooneMacroArray[] = {T, R, U, S, T, N, O, O, N, E}; /* LEDs for "TRUSTNOONE" */
 int onemainMacroArray[] = {O, N, E, M, A, I, N}; /* LEDs for "ONEMAIN" */
 int strangerMacroArray[] = {S, T, R, A, N, G, E, R, T, H, I, N, G, S}; /* LEDs for "STRANGERTHINGS" */
-int haveastrangeMacroArray[] = {H, A, V, E, A, S, T, R, A, N, G, E, X, M, A, S}; /* LEDs for "HAVEASTRANGEXMAS" */
-int bahhumbugMacroArray[] = {B, A, H, H, U, M, B, U, G}; /* LEDs for "BAHHUMBUG" */
-int sonofanutMacroArray[] = {S, O, N, O, F, A, N, U, T, C, R, A, C, K, E, R}; /* LEDs for "SONOFANUTCRACKER" */
-int callmesantaMacroArray[] = {C, A, L, L, M, E, S, A, N, T, A}; /* LEDs for "CALLMESANTA" */
+int spookyMacroArray[] = {S, P, O, O, K, Y}; /* LEDs for "SPOOKY" */
+int isthisMacroArray[] = {I, S, T, H, I, S, T, H, I, N, G, O, N}; /* LEDs for "ISTHISTHINGON" */
 int dontblinkMacroArray[] = {D, O, N, T, B, L, I, N, K}; /* LEDs for "DONTBLINK" */
 int helpmeMacroArray[] = {H, E, L, P, M, E}; /* LEDs for "HELPME" */
 int yesMacroArray[] = {Y, E, S}; /* LEDs for "YES" */
@@ -101,11 +99,19 @@ void flickerLEDdim() {
   FastLED.show();
   delay(200);
   clear();
-  delay(300);
+  delay(100);
   FastLED.show();
-  delay(700);
+  delay(200);
   clear();
-  delay(300);
+  delay(100);
+  FastLED.show();
+  delay(600);
+  clear();
+  delay(200);
+  FastLED.show();
+  delay(200);
+  clear();
+  delay(100);
 } 
 
 void flickerLED() {
@@ -151,29 +157,26 @@ void loop() { /* Main program body below here */
 // actions, or a single activation for an individual letter key press
   switch (key) { 
     case ('1'):
-    for (rep = 0; rep < 2; rep++) {
-      for (count = 0; count < 6; count++) { /*  hohoho x3  */
-        leds[hohoMacroArray[count]] = CRGB::Ivory;
-        fastShowLED();
-        delay(900);
-        }
+    for (count = 0; count < 3; count++) { /* run */
+      leds[runMacroArray[count]] = CRGB::Ivory;
+      fastShowLED();
       }
       break;
     case ('2'):
-    for (count = 0; count < 14; count++) { /* merry christmas */
-      leds[merryxmasMacroArray[count]] = CRGB::Ivory;
+    for (count = 0; count < 9; count++) { /* right here */
+      leds[righthereMacroArray[count]] = CRGB::Ivory;
       fastShowLED();
       }
       break;
     case ('3'):
-    for (count = 0; count < 13; count++) { /*  happy holidays  */
-      leds[happyholidaysMacroArray[count]] = CRGB::Ivory;
+    for (count = 0; count < 10; count++) { /*  hello world  */
+      leds[helloworldMacroArray[count]] = CRGB::Ivory;
       showLED();
       }
       break;
     case ('4'):
-    for (count = 0; count < 13; count++) { /*  run run rudolph */
-      leds[runrunrudolphMacroArray[count]] = CRGB::Ivory;
+    for (count = 0; count < 10; count++) { /*  trust no one */
+      leds[trustnooneMacroArray[count]] = CRGB::Ivory;
       fastShowLED();
       }
       break;
@@ -190,20 +193,20 @@ void loop() { /* Main program body below here */
       }
       break;
     case ('7'):
-    for (count = 0; count < 16; count++) { /*  have a strange xmas  */
-      leds[haveastrangeMacroArray[count]] = CRGB::Ivory; 
+    for (count = 0; count < 6; count++) { /*  spooky  */
+      leds[spookyMacroArray[count]] = CRGB::Ivory; 
       fastShowLED();
       }
       break;
     case ('8'):
-    for (count = 0; count < 9; count++) {
-      leds[bahhumbugMacroArray[count]] = CRGB::Ivory;  /* bah humbug */
+    for (count = 0; count < 13; count++) {
+      leds[isthisMacroArray[count]] = CRGB::Ivory;  /* is this thing on */
       showLED();
       }
       break;
     case ('9'):
-    for (count = 0; count < 16; count++) {
-      leds[sonofanutMacroArray[count]] = CRGB::Ivory;  /* son of a nutcracker */
+    for (count = 0; count < 9; count++) {
+      leds[dontblinkMacroArray[count]] = CRGB::Ivory;  /* don't blink */
       fastShowLED();
       }
       break;
@@ -320,10 +323,14 @@ void loop() { /* Main program body below here */
       longLoop++;
       if (longLoop == 301) {
         longLoop = 0;
+        leds[H] = CRGB::Yellow;      /* come in soft H  */
+        flickerLEDdim();
         for (count = 0; count < 14; count++) { /* help me */
           leds[helpmeMacroArray[count]] = CRGB::Ivory;
           fastShowLED();
         }
+        leds[E] = CRGB::Yellow;      /* flicker E  */
+        flickerLEDdim();        
         break;
       }
       else if (longLoop % 31 == 0) { /* else if statement using modulo div */
