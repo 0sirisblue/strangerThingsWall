@@ -95,19 +95,44 @@ void fastShowLED() {
   delay(50);
 }
 
-void flickerLEDdim() {
+void flickerLEDHdim() {
   FastLED.show();
   delay(200);
   clear();
   delay(100);
+  leds[H] = CRGB::Orange;
   FastLED.show();
   delay(200);
   clear();
   delay(100);
+  leds[H] = CRGB::Orange;
+  FastLED.show();
+  delay(500);
+  clear();
+  delay(200);
+  leds[H] = CRGB::Brown;
+  FastLED.show();
+  delay(200);
+  clear();
+  delay(100);
+} 
+
+void flickerLEDEdim() {
+  FastLED.show();
+  delay(200);
+  clear();
+  delay(100);
+  leds[E] = CRGB::Orange;
+  FastLED.show();
+  delay(200);
+  clear();
+  delay(100);
+  leds[E] = CRGB::Orange;
   FastLED.show();
   delay(600);
   clear();
   delay(200);
+  leds[E] = CRGB::Brown;
   FastLED.show();
   delay(200);
   clear();
@@ -119,8 +144,9 @@ void flickerLED() {
   delay(500);
   clear();
   delay(200);
+  leds[H] = CRGB::Yellow;
   FastLED.show();
-  delay(900);
+  delay(600);
   clear();
   delay(100);
 } 
@@ -324,22 +350,18 @@ void loop() { /* Main program body below here */
       if (longLoop == 301) {
         longLoop = 0;
         leds[H] = CRGB::Yellow;      /* come in soft H  */
-        flickerLEDdim();
-        for (count = 0; count < 14; count++) { /* help me */
+        flickerLEDHdim();
+        for (count = 0; count < 6; count++) { /* help me */
           leds[helpmeMacroArray[count]] = CRGB::Ivory;
           fastShowLED();
         }
         leds[E] = CRGB::Yellow;      /* flicker E  */
-        flickerLEDdim();        
+        flickerLEDEdim();        
         break;
       }
       else if (longLoop % 31 == 0) { /* else if statement using modulo div */
-        leds[H] = CRGB::Yellow;      /* to make this happen every 30 sec  */
-        flickerLEDdim();
-        leds[H] = CRGB::Ivory;
-        flickerLED();
         leds[H] = CRGB::Yellow;
-        flickerLEDdim();
+        flickerLEDHdim();
         delay (1000);
         break;
       }
@@ -347,4 +369,4 @@ void loop() { /* Main program body below here */
         delay (1000);
       }
     }
-}
+}  
