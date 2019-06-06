@@ -90,9 +90,9 @@ void showLED() {
 
 void fastShowLED() {
   FastLED.show();
-  delay(750);
+  delay(fastShowTimer);
   clear();
-  delay(50);
+  delay(fastOffTimer);
 }
 
 void flickerLEDHdim() {
