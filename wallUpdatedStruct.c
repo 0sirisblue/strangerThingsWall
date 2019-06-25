@@ -96,11 +96,12 @@ void fastShowLED() {
 }
 
 void flickerLEDHdim() {
+  leds[H] = CRGB::DarkOrange;
   FastLED.show();
   delay(200);
   clear();
   delay(100);
-  leds[H] = CRGB::Orange;
+  leds[H] = CRGB::Yellow;
   FastLED.show();
   delay(200);
   clear();
@@ -110,7 +111,7 @@ void flickerLEDHdim() {
   delay(500);
   clear();
   delay(200);
-  leds[H] = CRGB::Brown;
+  leds[H] = CRGB::SaddleBrown;
   FastLED.show();
   delay(200);
   clear();
@@ -118,6 +119,7 @@ void flickerLEDHdim() {
 } 
 
 void flickerLEDEdim() {
+  leds[E] = CRGB::Yellow;
   FastLED.show();
   delay(200);
   clear();
@@ -127,12 +129,12 @@ void flickerLEDEdim() {
   delay(200);
   clear();
   delay(100);
-  leds[E] = CRGB::Orange;
+  leds[E] = CRGB::DarkOrange;
   FastLED.show();
   delay(600);
   clear();
   delay(200);
-  leds[E] = CRGB::Brown;
+  leds[E] = CRGB::SaddleBrown;
   FastLED.show();
   delay(200);
   clear();
@@ -241,6 +243,9 @@ void loop() { /* Main program body below here */
        /*            -------      try and figure this out in the morning       ------          */ 
       break;
     }
+    case (' '):
+      delay(2000);
+      break;
     case ('a'):
       leds[A] = CRGB::Blue;
       showLED();
